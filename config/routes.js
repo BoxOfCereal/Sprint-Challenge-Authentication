@@ -23,7 +23,8 @@ function register(req, res) {
   userModel
     .add(user)
     .then(u => {
-      res.status(201).json(u);
+      const token = genToken(user);
+      res.status(200).json({ message: `welcome ${u.username}`, token });
     })
     .catch(error => {
       res.status(500).json(error);
