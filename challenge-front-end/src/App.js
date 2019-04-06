@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import { Route, NavLink, withRouter } from "react-router-dom";
+import { Route, NavLink, withRouter, Switch } from "react-router-dom";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+import Jokes from "./Jokes/Jokes";
 
 import "./App.css";
 require("dotenv").config();
 
 class App extends Component {
   logout = () => {
-    //Remove the Jason Webb token from local storage
+    //Remove the jwt from local storage
     localStorage.removeItem("jwt");
-    //<Redirect to="/login" />
+    //redirect to login
     this.props.history.push("/login");
   };
 
@@ -29,9 +30,11 @@ class App extends Component {
           </nav>
         </header>
         <main>
-          <Route path="/login" component={Login} />
-          {/* <Route path="/users" component={Users} /> */}
-          <Route path="/register" component={Register} />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/jokes" component={Jokes} />
+          </Switch>
         </main>
       </>
     );
