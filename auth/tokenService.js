@@ -15,7 +15,6 @@ const genToken = user => {
     expiresIn: "1d"
   };
 
-  console.log(jwt.sign(payload, jwtKey, options));
   return jwt.sign(payload, jwtKey, options);
 };
 
