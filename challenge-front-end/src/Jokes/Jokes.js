@@ -4,7 +4,8 @@ import requiresAuth from "../auth/requiresAuth";
 
 const Jokes = () => {
   const [data, setData] = useState([]);
-  const [query, setQuery] = useState("hipster");
+  const [input, setInput] = useState("");
+  const [search, setSearch] = useState("hipster");
 
   useEffect(() => {
     //use effect does not support asynchronous functions
@@ -14,22 +15,27 @@ const Jokes = () => {
     //http://localhost:3300/api/jokes?term=hipster
     const URL = `http://localhost:3300/api/jokes`;
     const fetchData = async () => {
-      const result = await axios(`${URL}?term=${query}`);
+      const result = await axios(`${URL}?term=${search}`);
       setData(result.data);
     };
     fetchData();
-  }, [query]); //the effect is now depending on the query
+  }, [search]); //the effect is now depending on the search
 
   return (
     <>
       <h1>Jokes</h1>
       <label htmlFor="search-term">Search Term</label> <br />
+      {/* set search based off input */}
+      <button type="button" onClick={() => setSearch(input)}>
+        Search
+      </button>
       <input
         name="search-term"
         id="search-term"
         type="text"
-        value={query}
-        onChange={event => setQuery(event.target.value)}
+        value={input}
+        placeholder="hispter"
+        onChange={event => setInput(event.target.value)}
       />
       <ul>
         {data.map(item => (
