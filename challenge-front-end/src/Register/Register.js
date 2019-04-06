@@ -16,7 +16,7 @@ const Register = props => {
       .then(res => {
         // set JSON web token inside local storage
         localStorage.setItem("jwt", res.data.token);
-        //<Redirect to="/users" />
+        //redirect to jokes
         props.history.push("/jokes");
       })
       .catch(error => {
