@@ -2,6 +2,7 @@ const axios = require("axios");
 const bcrypt = require("bcryptjs");
 
 const { authenticate } = require("../auth/authenticate");
+const { genToken } = require("../auth/tokenService");
 const userModel = require("../database/users-model");
 
 module.exports = server => {
@@ -37,10 +38,13 @@ function login(req, res) {
   userModel
     .findBy({ username })
     .then(user => {
+      // console.log(user);
+      // console.log(bcrypt.compareSync(password, user.password));
       //compare the hash in the database with a hash of the password supplied
       if (user && bcrypt.compareSync(password, user.password)) {
-        //FIXME issue token
-        res.status(200).json({ message: `welcome ${user.username}` });
+        //generate a token based off of the user
+        const token = genToken(user);
+        res.status(200).json({ message: `welcome ${user.username}`, token });
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
       }

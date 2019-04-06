@@ -5,17 +5,18 @@ const jwtKey =
   "add a .env file to root of project with the JWT_SECRET variable";
 
 const genToken = user => {
+  console.log(user);
   const payload = {
     subject: user.id,
-    username: user.username,
-    roles: ["TA", "PM"] //in reality from db
+    username: user.username
   };
 
   const options = {
     expiresIn: "1d"
   };
 
-  return jwt.sign(payload, secret, options);
+  console.log(jwt.sign(payload, jwtKey, options));
+  return jwt.sign(payload, jwtKey, options);
 };
 
 module.exports = {
