@@ -18,7 +18,7 @@ function register(req, res) {
   //replace the password with the hash
   user.password = hash;
 
-  //at the user to the database
+  //add the user to the database
   userModel
     .add(user)
     .then(u => {
@@ -30,7 +30,24 @@ function register(req, res) {
 }
 
 function login(req, res) {
-  // implement user login
+  //get the username and password off the body
+  let { username, password } = req.body;
+
+  //find the user by the username
+  userModel
+    .findBy({ username })
+    .then(user => {
+      //compare the hash in the database with a hash of the password supplied
+      if (user && bcrypt.compareSync(password, user.password)) {
+        //FIXME issue token
+        res.status(200).json({ message: `welcome ${user.username}` });
+      } else {
+        res.status(401).json({ message: "Invalid Credentials" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
 }
 
 function getJokes(req, res) {
