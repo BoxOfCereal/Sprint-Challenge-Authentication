@@ -1,5 +1,6 @@
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
+const querystring = require("querystring");
 
 const { authenticate } = require("../auth/authenticate");
 const { genToken } = require("../auth/tokenService");
@@ -56,12 +57,20 @@ function login(req, res) {
 }
 
 function getJokes(req, res) {
+  const params = req.query;
+  let queryString = querystring.stringify(params);
+  console.log(queryString);
   const requestOptions = {
     headers: { accept: "application/json" }
   };
 
+  const URL = params
+    ? `https://icanhazdadjoke.com/search?${queryString}`
+    : `https://icanhazdadjoke.com/search`;
+
+  console.log(URL);
   axios
-    .get("https://icanhazdadjoke.com/search", requestOptions)
+    .get(URL, requestOptions)
     .then(response => {
       res.status(200).json(response.data.results);
     })

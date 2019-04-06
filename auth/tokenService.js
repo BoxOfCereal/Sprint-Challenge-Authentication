@@ -5,7 +5,6 @@ const jwtKey =
   "add a .env file to root of project with the JWT_SECRET variable";
 
 const genToken = user => {
-  console.log(user);
   const payload = {
     subject: user.id,
     username: user.username
